@@ -5,7 +5,7 @@ const messageInput = document.getElementById('messageInput');
 
 sendButton.addEventListener('click', () => {
     const message = messageInput.value;
-    socket.emit('chat-message', message);
+    socket.emit('chat-message', message + " - Client");
     messageInput.value = '';
 });
 
