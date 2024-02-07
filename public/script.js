@@ -1,14 +1,20 @@
 const socket = io();
 
-const sendButton = document.getElementById('sendButton');
+const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('messageInput');
+const sendButton = document.getElementById('sendButton');
+const usernameInput = document.getElementById('usernameInput');
 
 sendButton.addEventListener('click', () => {
+    const username = usernameInput.value;
     const message = messageInput.value;
-    socket.emit('chat-message', message);
+    socket.emit('chat-message', { username, message });
     messageInput.value = '';
 });
 
-socket.on('chat-message', (message) => {
-    console.log(`Message reçu du serveur : ${message}`);
+socket.on('chat-message', (data) => {
+    const { username, message, time } = data;
+    const messageElement = document.createElement('div');
+    messageElement.innerHTML = `<strong>${username}</strong> (${time}): ${message}`;
+    messagesContainer.appendChild(messageElement);
 });
